@@ -55,12 +55,12 @@ describe('Prop aliases', () => {
       const domElement = getByTestId(container, 'composition')
 
       /* Assertion */
-      const { props: cssProps, transformValue } = propAliases[propAliasName]
+      const { output, transformValue } = propAliases[propAliasName]
       const expectedValue = transformValue
         ? transformValue(propValue)
         : propValue
 
-      cssProps.forEach((cssPropName) => {
+      output.forEach((cssPropName) => {
         expect(domElement).toHaveStyle(`${cssPropName}:${expectedValue}`)
       })
     })
