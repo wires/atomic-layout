@@ -4,10 +4,14 @@ import defaultOptions, {
   Breakpoints,
   MeasurementUnit,
   BreakpointBehavior,
+  Numeric,
 } from './const/defaultOptions'
+import { PropAliases } from './const/propAliases'
 import invariant from './utils/invariant'
+import isset from './utils/functions/isset'
 
 class Layout {
+  public propAliases: PropAliases = defaultOptions.propAliases
   public defaultUnit: MeasurementUnit = defaultOptions.defaultUnit
   public defaultBehavior: BreakpointBehavior = defaultOptions.defaultBehavior
   public breakpoints: Breakpoints = defaultOptions.breakpoints
@@ -81,6 +85,27 @@ class Layout {
    */
   public getBreakpoint(breakpointName: string): Breakpoint | undefined {
     return this.breakpoints[breakpointName]
+  }
+
+  /**
+   * Transforms given string or number into a CSS value
+   * taking "defaultUnit" into account.
+   */
+  public transformNumeric(value?: Numeric): string {
+    if (!isset(value)) {
+      return ''
+    }
+
+    // tslint:disable-next-line
+    if (value == '0') {
+      return String(value)
+    }
+
+    // Suffix numeric value with the default unit.
+    // Accept explicit (string) value as-is.
+    const suffix = typeof value === 'number' ? this.defaultUnit : ''
+
+    return `${value}${suffix}`
   }
 }
 
