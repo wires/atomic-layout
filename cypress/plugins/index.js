@@ -44,6 +44,5 @@ module.exports = (on, config) => {
 
   const { envName } = config.env
   const env = getCypressConfig(envName)
-  console.log({ env })
   return env
 }
